@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manutenção Preventiva</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            width: 90%;
+            max-width: 400px;
+            background: #333;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            color: white;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        h2 {
+            text-align: center;
+            color: red;
+        }
+        label {
+            font-weight: bold;
+            display: block;
+            margin-top: 10px;
+            text-align: center;
+        }
+        input, textarea, button {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            margin-top: 5px;
+            border-radius: 5px;
+            border: none;
+            text-align: center;
+        }
+        textarea {
+            resize: none;
+            height: 60px;
+        }
+        button {
+            background: red;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            margin-top: 15px;
+        }
+        button:hover {
+            background: darkred;
+        }
+        .list {
+            margin-top: 20px;
+            background: white;
+            color: black;
+            padding: 10px;
+            border-radius: 5px;
+            max-height: 200px;
+            overflow-y: auto;
+            width: 100%;
+            max-width: 300px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h2>Manutenção Preventiva</h2>
+        <label>Data Hora:</label>
+        <input type="datetime-local" id="dataHora">
+        <label>Prefixo da Viatura:</label>
+        <input type="text" id="prefixo">
+        <label>KM Atual:</label>
+        <input type="number" id="km">
+        <label>Nome do Motorista:</label>
+        <input type="text" id="motorista">
+        <label>RE:</label>
+        <input type="text" id="re">
+        <label>Motivo da Baixa:</label>
+        <textarea id="motivo" maxlength="300"></textarea>
+        <label>Email:</label>
+        <input type="email" id="email">
+        <button onclick="salvarDados()">Salvar</button>
+        <div class="list" id="lista"></div>
+    </div>
+    
+    <script>
+        function salvarDados() {
+            let dataHora = document.getElementById('dataHora').value;
+            let prefixo = document.getElementById('prefixo').value;
+            let km = document.getElementById('km').value;
+            let motorista = document.getElementById('motorista').value;
+            let re = document.getElementById('re').value;
+            let motivo = document.getElementById('motivo').value;
+            let email = document.getElementById('email').value;
+            
+            if (!dataHora || !prefixo || !km || !motorista || !re || !motivo || !email) {
+                alert('Preencha todos os campos!');
+                return;
+            }
+            
+            let lista = document.getElementById('lista');
+            let item = document.createElement('div');
+            item.innerHTML = `<strong>${dataHora}</strong> - ${prefixo} - ${km} KM - ${motorista} - ${re} - ${motivo}`;
+            lista.prepend(item);
+            
+            let mailtoLink = `mailto:${email}?subject=Manutenção Preventiva&body=Data Hora: ${dataHora}%0D%0APrefixo da Viatura: ${prefixo}%0D%0AKM Atual: ${km}%0D%0ANome do Motorista: ${motorista}%0D%0ARE: ${re}%0D%0AMotivo da Baixa: ${motivo}`;
+            window.location.href = mailtoLink;
+        }
+    </script>
+</body>
+</html>
