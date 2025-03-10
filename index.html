@@ -7,116 +7,99 @@
     <style>
         body {
             font-family: Arial, sans-serif;
-            background-color: #f5f5f5;
+            background-color: #2C2C2C;
+            color: white;
+            text-align: center;
+            margin: 0;
+            padding: 20px;
             display: flex;
             justify-content: center;
             align-items: center;
             height: 100vh;
-            margin: 0;
         }
         .container {
-            width: 90%;
-            max-width: 400px;
-            background: #333;
+            width: 100%;
+            max-width: 500px;
+            background: #444;
             padding: 20px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
-            color: white;
+            box-shadow: 0px 0px 10px rgba(255, 0, 0, 0.5);
             display: flex;
             flex-direction: column;
             align-items: center;
         }
-        h2 {
-            text-align: center;
-            color: red;
-        }
-        label {
-            font-weight: bold;
-            display: block;
-            margin-top: 10px;
-            text-align: center;
-        }
         input, textarea, button {
-            width: 100%;
-            max-width: 300px;
+            width: calc(100% - 20px);
             padding: 10px;
-            margin-top: 5px;
-            border-radius: 5px;
+            margin: 10px 0;
             border: none;
-            text-align: center;
+            border-radius: 5px;
         }
-        textarea {
-            resize: none;
-            height: 60px;
+        input, textarea {
+            background: #333;
+            color: white;
         }
         button {
             background: red;
             color: white;
             font-size: 16px;
             cursor: pointer;
-            margin-top: 15px;
         }
         button:hover {
             background: darkred;
         }
-        .list {
-            margin-top: 20px;
-            background: white;
-            color: black;
-            padding: 10px;
-            border-radius: 5px;
-            max-height: 200px;
-            overflow-y: auto;
+        .lista {
             width: 100%;
-            max-width: 300px;
-            text-align: center;
+            margin-top: 20px;
+            background: #555;
+            padding: 10px;
+            border-radius: 10px;
+            text-align: left;
         }
     </style>
 </head>
 <body>
     <div class="container">
         <h2>Manutenção Preventiva</h2>
-        <label>Data Hora:</label>
-        <input type="datetime-local" id="dataHora">
-        <label>Prefixo da Viatura:</label>
-        <input type="text" id="prefixo">
-        <label>KM Atual:</label>
-        <input type="number" id="km">
-        <label>Nome do Motorista:</label>
-        <input type="text" id="motorista">
-        <label>RE:</label>
-        <input type="text" id="re">
-        <label>Motivo da Baixa:</label>
-        <textarea id="motivo" maxlength="300"></textarea>
-        <label>Email:</label>
-        <input type="email" id="email">
-        <button onclick="salvarDados()">Salvar</button>
-        <div class="list" id="lista"></div>
+        <form id="formManutencao">
+            <input type="datetime-local" id="dataHora" required>
+            <input type="text" id="prefixoViatura" placeholder="Prefixo da Viatura" required>
+            <input type="number" id="kmAtual" placeholder="KM Atual" required>
+            <input type="text" id="nomeMotorista" placeholder="Nome do Motorista" required>
+            <input type="text" id="re" placeholder="RE" required>
+            <textarea id="motivoBaixa" placeholder="Motivo da Baixa (máx. 50 palavras)" rows="3" required></textarea>
+            <button type="submit">Enviar</button>
+        </form>
+        <div class="lista" id="listaRegistros"></div>
     </div>
-    
+
     <script>
-        function salvarDados() {
-            let dataHora = document.getElementById('dataHora').value;
-            let prefixo = document.getElementById('prefixo').value;
-            let km = document.getElementById('km').value;
-            let motorista = document.getElementById('motorista').value;
-            let re = document.getElementById('re').value;
-            let motivo = document.getElementById('motivo').value;
-            let email = document.getElementById('email').value;
+        document.getElementById("formManutencao").addEventListener("submit", function(event) {
+            event.preventDefault();
+            let dataHora = document.getElementById("dataHora").value;
+            let prefixoViatura = document.getElementById("prefixoViatura").value;
+            let kmAtual = document.getElementById("kmAtual").value;
+            let nomeMotorista = document.getElementById("nomeMotorista").value;
+            let re = document.getElementById("re").value;
+            let motivoBaixa = document.getElementById("motivoBaixa").value;
             
-            if (!dataHora || !prefixo || !km || !motorista || !re || !motivo || !email) {
-                alert('Preencha todos os campos!');
+            if (motivoBaixa.split(" ").length > 50) {
+                alert("O motivo da baixa deve ter no máximo 50 palavras.");
                 return;
             }
             
-            let lista = document.getElementById('lista');
-            let item = document.createElement('div');
-            item.innerHTML = `<strong>${dataHora}</strong> - ${prefixo} - ${km} KM - ${motorista} - ${re} - ${motivo}`;
-            lista.prepend(item);
+            let lista = document.getElementById("listaRegistros");
+            let novoRegistro = document.createElement("p");
+            novoRegistro.textContent = `${dataHora} - ${prefixoViatura} - ${kmAtual} KM - ${nomeMotorista} - ${re} - ${motivoBaixa}`;
+            lista.appendChild(novoRegistro);
             
-            let mailtoLink = `mailto:${email}?subject=Manutenção Preventiva&body=Data Hora: ${dataHora}%0D%0APrefixo da Viatura: ${prefixo}%0D%0AKM Atual: ${km}%0D%0ANome do Motorista: ${motorista}%0D%0ARE: ${re}%0D%0AMotivo da Baixa: ${motivo}`;
-            window.location.href = mailtoLink;
-        }
+            let email = "juninhosouza810@gmail.com";
+            let assunto = "Registro de Manutenção Preventiva";
+            let corpoEmail = `Data e Hora: ${dataHora}%0D%0APrefixo da Viatura: ${prefixoViatura}%0D%0AKM Atual: ${kmAtual}%0D%0ANome do Motorista: ${nomeMotorista}%0D%0ARE: ${re}%0D%0AMotivo da Baixa: ${motivoBaixa}`;
+            window.open(`mailto:${email}?subject=${assunto}&body=${corpoEmail}`);
+            
+            document.getElementById("formManutencao").reset();
+        });
     </script>
 </body>
 </html>
