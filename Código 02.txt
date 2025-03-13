@@ -1,0 +1,178 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meu PVT</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f0f0f0;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            background: #fff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 90%;
+            max-width: 400px;
+            text-align: center;
+        }
+        h2 {
+            color: #d32f2f;
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            text-align: left;
+            margin-top: 10px;
+            font-weight: bold;
+            color: #333;
+        }
+        input, select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-top: 5px;
+            border: 2px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+            display: block;
+            margin-left: auto;
+            margin-right: auto;
+        }
+        .readonly-field {
+            background-color: #e0e0e0;
+            color: #333;
+        }
+        .checkbox-container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 15px;
+        }
+        .checkbox-container input {
+            width: auto;
+            margin-right: 10px;
+        }
+        button {
+            background-color: #d32f2f;
+            color: white;
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            width: 100%;
+            margin-top: 15px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #b71c1c;
+        }
+        .declaration {
+            font-size: 14px;
+            color: #333;
+        }
+        .success-message {
+            margin-top: 15px;
+            color: green;
+            font-weight: bold;
+            display: none;
+        }
+        .logo {
+          object-fit: cover;
+          width: 100%;
+          max-width: 440px;
+          max-height: 6rem;
+          margin-bottom: 2.5rem;
+        }
+      .logo2 {
+          position: absolute;
+          left: 0;
+          top: 0;
+          padding: 1rem 1rem;
+          object-fit: cover;
+          max-width: 6rem;
+          max-height: 6rem;
+          margin-bottom: 2.5rem;
+        }
+    </style>
+</head>
+<body>
+    <img class="logo" src="https://placehold.co/600x400" />
+    <img class="logo2" src="https://placehold.co/600x400" />
+    <div class="container">
+        <h2>Meu PVT</h2>
+        <label for="nome">Nome:</label>
+        <input type="text" id="nome" placeholder="Digite seu nome">
+        
+        <label for="re">RE:</label>
+        <input type="text" id="re" placeholder="Digite seu RE">
+        
+        <label for="unidade">Unidade:</label>
+        <input type="text" id="unidade" value="2ºBPM/I 5ªCia/PM" class="readonly-field" readonly>
+        
+        <label for="mes">PVT Mês:</label>
+        <select id="mes">
+            <option value="Janeiro">Janeiro</option>
+            <option value="Fevereiro">Fevereiro</option>
+            <option value="Março">Março</option>
+            <option value="Abril">Abril</option>
+            <option value="Maio">Maio</option>
+            <option value="Junho">Junho</option>
+            <option value="Julho">Julho</option>
+            <option value="Agosto">Agosto</option>
+            <option value="Setembro">Setembro</option>
+            <option value="Outubro">Outubro</option>
+            <option value="Novembro">Novembro</option>
+            <option value="Dezembro">Dezembro</option>
+        </select>
+        
+        <div class="checkbox-container">
+            <input type="checkbox" id="confirmacao">
+            <label for="confirmacao" class="declaration">Declaro que efetuei o PVT referente ao mês indicado acima.</label>
+        </div>
+        
+        <button onclick="enviarEmail()">Enviar</button>
+        <p class="success-message" id="success-message">Informações enviadas com sucesso!!</p>
+    </div>
+    
+    <script>
+        function enviarEmail() {
+            var nome = document.getElementById('nome').value;
+            var re = document.getElementById('re').value;
+            var unidade = document.getElementById('unidade').value;
+            var mes = document.getElementById('mes').value;
+            var confirmacao = document.getElementById('confirmacao');
+            var successMessage = document.getElementById('success-message');
+            
+            if (!nome || !re) {
+                alert("Por favor, preencha todos os campos!");
+                return;
+            }
+            
+            if (!confirmacao.checked) {
+                alert("Você deve confirmar a declaração antes de enviar!");
+                return;
+            }
+            
+            var assunto = encodeURIComponent("PVT - " + nome);
+            var corpo = encodeURIComponent("Nome: " + nome + "\nRE: " + re + "\nUnidade: " + unidade + "\nPVT Mês: " + mes + "\n\nDeclaro que efetuei o PVT referente ao mês indicado acima.");
+            
+            window.location.href = "mailto:2bpmi5cia@policiamilitar.sp.gov.br?subject=" + assunto + "&body=" + corpo;
+            
+            document.getElementById('nome').value = "";
+            document.getElementById('re').value = "";
+            document.getElementById('mes').selectedIndex = 0;
+            confirmacao.checked = false;
+            
+            successMessage.style.display = "block";
+        }
+    </script>
+</body>
+</html>
