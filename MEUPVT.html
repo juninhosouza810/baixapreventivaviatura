@@ -24,16 +24,24 @@
             text-align: center;
             position: relative;
         }
-        .logo {
-            position: absolute;
-            top: 10px;
-            right: 10px;
-            width: 50px;
-            height: 50px;
-        }
         h2 {
             color: #d32f2f;
+            margin-bottom: 10px;
+            text-align: center;
+        }
+        .access-btn {
+            background-color: #1976d2;
+            color: white;
+            padding: 10px 15px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
             margin-bottom: 15px;
+        }
+        .access-btn:hover {
+            background-color: #1565c0;
         }
         label {
             display: block;
@@ -86,8 +94,9 @@
 </head>
 <body>
     <div class="container">
-        <img src=""C:\Users\junin\OneDrive\Área de Trabalho\logo.jpg"" alt="Logo" class="logo">
         <h2>Meu PVT</h2>
+        <button class="access-btn" onclick="window.location.href='https://ead.policiamilitar.sp.gov.br/login/index.php'">Acesso ao PVT</button>
+        
         <label for="nome">Nome:</label>
         <input type="text" id="nome" placeholder="Digite seu nome">
         
